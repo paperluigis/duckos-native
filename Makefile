@@ -24,14 +24,9 @@ tools/mkhdr: tools/mkhdr.c
 	@echo "HOSTCC	$@"
 	@$(HOSTCC) -o $@ $^
 
-$(OBJECTS): $(HEADERS) main.c
+$(OBJECTS): $(SOURCES)
 	@echo "CC	$@"
 	@$(CC) $(CFLAGS) -c -o $@ $(@:%.o=%.c)
-
-$(HEADERS): $(SOURCES)
-	@echo "MKHDR	$@"
-	@./tools/mkhdr $(@:%.h=%.c) -H > $@
-
 
 .PHONY: clean
 clean:
