@@ -36,9 +36,9 @@ $(HEADERS): $(SOURCES)
 .PHONY: clean
 clean:
 	@-rm -rf $(OUTPUT) $(OBJECTS)
+	# clean all submodules
+	@$(MAKE) -C ./libs/quickjs/ clean
 
 .PHONY: run
 run: ./build/duckos
 	@sh -c "cd build; exec ./duckos"
-	# clean all submodules
-	@$(MAKE) -C ./libs/quickjs/ clean
