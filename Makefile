@@ -20,23 +20,21 @@ $(OUTPUT): $(OBJECTS) build ./libs/quickjs/libquickjs.lto.a
 ./libs/quickjs/libquickjs.lto.a:
 	@$(MAKE) -C ./libs/quickjs/ libquickjs.lto.a
 
+.PHONY: build
 build:
-	@-mkdir build
-	@-mkdir build/assets
-	@-mkdir build/fs
-
-tools/mkhdr: tools/mkhdr.c
-	@echo "HOSTCC	$@"
-	@$(HOSTCC) -o $@ $^
+	@-rm -rf ./build
+	@mkdir ./build
+	@cp -r ./assets/ ./build/assets/
+	@cp -r ./fs/ ./build/fs/
 
 $(OBJECTS): $(SOURCES)
 	@echo "CC	$@"
 	@$(CC) $(CFLAGS) -c -o $@ $(@:%.o=%.c)
 
-.PHONY: clean
+.PHONY: clean clean_all
 clean:
 	@-rm -rf $(OUTPUT) $(OBJECTS)
-	# clean all submodules
+clean-all: clean
 	@$(MAKE) -C ./libs/quickjs/ clean
 
 .PHONY: run
