@@ -2,10 +2,10 @@
 #include <SDL2/SDL_ttf.h>
 #include "config.h"
 
-SDL_Window *window;
-SDL_Renderer *renderer;
-TTF_Font *font_monospace;
-TTF_Font *font_sans;
+static SDL_Window *window;
+static SDL_Renderer *renderer;
+static TTF_Font *font_monospace;
+static TTF_Font *font_sans;
 
 static void poll() {
     SDL_Event next_event;
