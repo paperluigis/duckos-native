@@ -11,9 +11,7 @@ static void poll() {
     SDL_Event next_event;
     if (SDL_PollEvent(&next_event)) {
         switch (next_event.type) {
-        case SDL_QUIT:
-            handle_exit();
-            break;
+
         }
     }
 }
@@ -27,12 +25,13 @@ int init_sdl() {
     // initialize sdl
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         fputs("SDL start vented\n", stderr);
-        return 1;
+        return 0;
     }
     SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
 
     // initialize ttf library
-    TTF_Init();
+    if(TTF_Init() < 0) return 0;
+    return 1;
 }
 int load_assets() {
     // load in some fonts
@@ -40,12 +39,13 @@ int load_assets() {
     font_sans = TTF_OpenFont(duckos_configuration.path.font_sans, duckos_configuration.font.pt_terminal);
     if (!font_sans) {
         fprintf(stderr, "failed to load %s", duckos_configuration.path.font_sans);
-        return 1;
+        return 0;
     }
     if (!font_monospace) {
         fprintf(stderr, "failed to load %s", duckos_configuration.path.font_monospace);
-        return 1;
+        return 0;
     }
+    return 1;
 }
 int open_window() {
     // create window
@@ -74,7 +74,7 @@ void close_window() {
     window = NULL;
 }
 void deinit_sdl() {
-    if (window)         SDL_DestroyWindow(window);
+    close_window();
     SDL_Quit();
     if (font_monospace) TTF_CloseFont(font_monospace);
     if (font_sans)      TTF_CloseFont(font_sans);

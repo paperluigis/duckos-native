@@ -1,4 +1,4 @@
 *.o
-build/
+build/fs
+build/duckos
 .vscode/
-libs/*

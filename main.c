@@ -10,11 +10,13 @@ void handle_exit() {
 }
 
 int main() {
-    // initialize config struct
     load_config();
 
-    init_sdl();
+    if(!init_sdl()) return 0;
     load_assets();
     
+
+
     handle_exit();
+    return 0;
 }
