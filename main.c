@@ -51,17 +51,8 @@ int draw()
 
 int main(int argc, char *const argv[])
 {
-    int result;
-
-    // get command-line options
-    while (1)
-    {
-        result = getopt(argc, argv, "h");
-        if (result == -1)
-        {
-            break;
-        }
-    }
+    // initialize config struct
+    load_config();
 
     // initialize sdl
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
