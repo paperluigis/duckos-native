@@ -25,9 +25,8 @@ void handle_exit() {
     exit(0);
 }
 
-int poll() {
+int poll_evt() {
     SDL_Event next_event;
-
     if (SDL_PollEvent(&next_event)) {
         switch (next_event.type) {
         case SDL_QUIT:
@@ -45,7 +44,7 @@ int draw() {
         duckos_configuration.color.background.g,
         duckos_configuration.color.background.b,
         duckos_configuration.color.background.a);
-    // SDL_UpdateWindowSurface(window);
+    SDL_UpdateWindowSurface(window);
 }
 
 int main(int argc, char *const argv[]) {
@@ -91,7 +90,7 @@ int main(int argc, char *const argv[]) {
     }
 
     while (1) {
-        poll();
+        poll_evt();
         draw();
     }
 
