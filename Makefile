@@ -3,6 +3,9 @@ OBJECTS = $(SOURCES:%.c=%.o)
 HEADERS = $(filter-out main.h,$(SOURCES:%.c=%.h))
 OUTPUT = ./build/duckos
 
+# because sus
+CC=clang
+
 LDLIBS = ./libs/quickjs/libquickjs.lto.a -lSDL2 -lSDL2_ttf
 CFLAGS = -flto
 
@@ -18,7 +21,9 @@ $(OUTPUT): $(OBJECTS) build ./libs/quickjs/libquickjs.lto.a
 	@$(MAKE) -C ./libs/quickjs/ libquickjs.lto.a
 
 build:
-	@mkdir build
+	@-mkdir build
+	@-mkdir build/assets
+	@-mkdir build/fs
 
 tools/mkhdr: tools/mkhdr.c
 	@echo "HOSTCC	$@"
