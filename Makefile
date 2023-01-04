@@ -3,14 +3,19 @@ OBJECTS = $(SOURCES:%.c=%.o)
 HEADERS = $(filter-out main.h,$(SOURCES:%.c=%.h))
 OUTPUT = ./build/duckos
 
-LDLIBS = /usr/lib/quickjs/libquickjs.lto.a -lSDL2 -lSDL2_ttf
+LDLIBS = ./libs/quickjs/libquickjs.lto.a -lSDL2 -lSDL2_ttf
 CFLAGS = -flto
 
 all: $(OUTPUT)
 
-$(OUTPUT): $(OBJECTS) build
+$(OUTPUT): $(OBJECTS) build ./libs/quickjs/libquickjs.lto.a
 	@echo "LINK	$@"
 	@$(CC) $(CFLAGS) $(LDLIBS) -o $@ $(OBJECTS)
+
+# sub-make knows when the code changes in the libs but we don't, so execute it every time
+.PHONY: ./libs/quickjs/libquickjs.lto.a
+./libs/quickjs/libquickjs.lto.a:
+	@$(MAKE) -C ./libs/quickjs/ libquickjs.lto.a
 
 build:
 	@mkdir build
@@ -35,3 +40,5 @@ clean:
 .PHONY: run
 run: ./build/duckos
 	@sh -c "cd build; exec ./duckos"
+	# clean all submodules
+	@$(MAKE) -C ./libs/quickjs/ clean
